@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "irisvision"
+version = "0.1.0"
+description = ""
+authors = ["pedrooliveira <pedrooliveira@rotadooeste.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.128.0"}
+taskipy = "^1.14.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.14.14"
+pytest-cov = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.pytest.ini_options]
+pythonpath = '.'
+addopts = '-p no:warnings'
+
+[tool.taskipy.tasks]
+lint = 'ruff check'
+pre_format = 'ruff check --fix'
+format = 'ruff format'
+run = 'fastapi dev irisvision/app.py'
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=irisvision -vv'
+post_test = 'coverage html'
