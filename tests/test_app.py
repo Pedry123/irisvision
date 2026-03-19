@@ -1,13 +1,14 @@
 from http import HTTPStatus
 from pathlib import Path
 
-from fastapi.testclient import TestClient
 
-from irisvision.app import app
+def test_health(client):
+    response = client.get('/health')
+
+    assert response.status_code == HTTPStatus.OK
 
 
-def test_json_post_predictions():
-    client = TestClient(app)
+def test_json_post_predictions(client):
 
     image_path = Path(__file__).parent / 'images' / 'test1.jpg'
     image_bytes = image_path.read_bytes()
@@ -17,5 +18,13 @@ def test_json_post_predictions():
     assert response.status_code == HTTPStatus.OK
     payload = response.json()
 
-    assert payload['Prediction']
-    assert payload['Confidence']
+    assert payload['prediction']
+    assert payload['confidence']
+
+
+def test_get_classifications(client):
+
+    response = client.get('/classifications')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'classifications': []}

@@ -12,6 +12,9 @@ taskipy = "^1.14.1"
 uvicorn = "^0.40.0"
 pillow = "^12.1.0"
 ultralytics = "^8.4.8"
+pydantic-settings = "^2.13.1"
+sqlalchemy = "^2.0.48"
+alembic = "^1.18.4"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.14.14"
